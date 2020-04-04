@@ -1,7 +1,5 @@
 import pytest
 
-RETRY_COUNT = 3
-
 
 class BaseCase:
     @pytest.fixture(scope='function', autouse=True)

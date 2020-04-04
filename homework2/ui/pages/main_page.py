@@ -20,6 +20,7 @@ class MainPage(BasePage):
         self.send(self.locators.CAMPAIGN_NAME_FIELD, campaign_name)
         self.click(self.locators.BANNER_OPTION)
         self.click(self.locators.DOWNLOAD_IMAGE_BUTTON)
+
         form = self.find(self.locators.DOWNLOAD_IMAGE_INPUT)  # send не вышел, видимо нужно другое событие
         form.send_keys(os.getcwd() + "/images/image.jpg")
 
