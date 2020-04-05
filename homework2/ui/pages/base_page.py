@@ -1,13 +1,11 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import StaleElementReferenceException
-from ui.locators.locators import *
 
 RETRY_COUNT = 3
 
 
 class BasePage:
-    locators = BasePageLocators()
 
     def __init__(self, driver, config):
         self.driver = driver
@@ -18,7 +16,7 @@ class BasePage:
 
     def wait(self, timeout=None):
         if timeout is None:
-            timeout = 5
+            timeout = 8
         return WebDriverWait(self.driver, timeout=timeout)
 
     def click(self, locator, timeout=None):

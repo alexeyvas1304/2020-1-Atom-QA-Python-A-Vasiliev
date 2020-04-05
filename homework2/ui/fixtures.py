@@ -4,9 +4,7 @@ from selenium import webdriver
 from ui.pages.auth_page import AuthPage
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
-
-EMAIL = 'QAPythonVasilievHW2@yandex.ru'
-PASSWORD = 'Covid-19'
+from personal_data import EMAIL, PASSWORD
 
 
 class UnsupportedBrowserException(Exception):

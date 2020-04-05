@@ -1,11 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class BasePageLocators:
-    pass
-
-
-class AuthPageLocators(BasePageLocators):
+class AuthPageLocators:
     ENTER_BUTTON = (By.XPATH, '//div[contains(text(),"Войти")]')
     EMAIL_FIELD = (By.NAME, "email")
     PASSWORD_FIELD = (By.NAME, "password")
@@ -13,7 +9,7 @@ class AuthPageLocators(BasePageLocators):
     RIGHT_AUTHORIZATION_LOCATOR = (By.CLASS_NAME, 'balance-panel')  # подстава, на блок из трех шагов не натравляться
 
 
-class MainPageLocators(BasePageLocators):
+class MainPageLocators:
     CREATE_FIRST_CAMPAIGN_HREF = (By.XPATH, '//a[contains(text(),"оздайте")]')  # лучше так
     CREATE_NOT_FIRST_CAMPAIGN_HREF = (By.XPATH, '//a/span[contains(text(),"Создать кампанию")]')
     TRAFIC_BUTTON = (By.XPATH, '// div[contains(text(), "Трафик")]')
@@ -25,6 +21,10 @@ class MainPageLocators(BasePageLocators):
     SAVE_IMAGE = (By.CSS_SELECTOR, '.image-cropper__buttons-footer input')
     SUBMIT_BUTTON = (By.CSS_SELECTOR, '.footer .button_submit')
     CREATED_CAMPAIGN = '//a[contains(text(),"{}")]'
+
+    CREATED_CAMPAIGN_CHECKBOX = '//a[contains(text(),"{}")]/../../../input'  # для подчистки
+    ACTIONS = (By.XPATH, '//div[contains(text(),"Действия")]')
+    DELETE_ACTION = (By.XPATH, '//span[contains(text(),"Удалить")]')
 
     GO_TO_SEGMENTS = (By.XPATH, '//a[contains(text(),"Аудитории")]')
     CREATE_FIRST_SEGMENT_HREF = (By.XPATH, '//a[contains(text(),"оздайте")]')  # лучше так
@@ -39,4 +39,5 @@ class MainPageLocators(BasePageLocators):
 
     DELETE_BUTTON = (By.CLASS_NAME, 'icon-cross')
     DELETE_CONFIRM_BUTTON = (By.CLASS_NAME, 'button_confirm-remove')
-    CREATED_SEGMENT_DELETE_BUTTON = '//a[contains(text(),"{}")]/../..//span[@class="icon-cross"]'  # проще не вышло
+    CREATED_SEGMENT_DELETE_BUTTON = '//a[contains(text(),"{}")]/../..//span[@class="icon-cross"]'  # как бы попроще ?
+    CREATED_SEGMENT_ID_FIELD = '//a[contains(text(),"{}")]/../../td/span[@class="adv-camp-cell adv-camp-cell_name"]'

@@ -22,7 +22,7 @@ class MainPage(BasePage):
         self.click(self.locators.DOWNLOAD_IMAGE_BUTTON)
 
         form = self.find(self.locators.DOWNLOAD_IMAGE_INPUT)  # send не вышел, видимо нужно другое событие
-        form.send_keys(os.getcwd() + "/images/image.jpg")
+        form.send_keys(os.path.realpath((os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'image.jpg'))))
 
         self.click(self.locators.SAVE_IMAGE)
         self.click(self.locators.SUBMIT_BUTTON)
@@ -43,12 +43,10 @@ class MainPage(BasePage):
         self.click(self.locators.CHECKBOX)
         self.click(self.locators.ADD_SEGMENT_SUBMIT)
         self.click(self.locators.CREATE_SEGMENT_SUBMIT)
-        CREATED_SEGMENT_TUPLE = (By.XPATH, self.locators.CREATED_SEGMENT.format(name))
-        self.find(CREATED_SEGMENT_TUPLE)  # аналог time.sleep()
+        self.find((By.XPATH, self.locators.CREATED_SEGMENT.format(name)))  # аналог time.sleep()
 
     def delete_segment(self, name):
         self.click(self.locators.GO_TO_SEGMENTS)
-        CREATED_SEGMENT_DELETE_BUTTON_TUPLE = (By.XPATH, self.locators.CREATED_SEGMENT_DELETE_BUTTON.format(name))
-        self.click(CREATED_SEGMENT_DELETE_BUTTON_TUPLE)
+        self.click((By.XPATH, self.locators.CREATED_SEGMENT_DELETE_BUTTON.format(name)))
         self.click(self.locators.DELETE_CONFIRM_BUTTON)
         self.click(self.locators.GO_TO_SEGMENTS)  # аналог time.sleep()
