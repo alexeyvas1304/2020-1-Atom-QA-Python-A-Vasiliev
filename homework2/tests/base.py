@@ -9,6 +9,3 @@ class BaseCase:
         self.base_page = request.getfixturevalue('base_page')
         self.auth_page = request.getfixturevalue('auth_page')
         self.main_page = request.getfixturevalue('main_page')
-
-
-

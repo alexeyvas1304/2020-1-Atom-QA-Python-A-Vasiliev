@@ -21,7 +21,7 @@ class MainPage(BasePage):
         self.click(self.locators.BANNER_OPTION)
         self.click(self.locators.DOWNLOAD_IMAGE_BUTTON)
 
-        form = self.find(self.locators.DOWNLOAD_IMAGE_INPUT)  # send не вышел, видимо нужно другое событие
+        form = self.find(self.locators.DOWNLOAD_IMAGE_INPUT)
         form.send_keys(os.path.realpath((os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'image.jpg'))))
 
         self.click(self.locators.SAVE_IMAGE)
@@ -43,10 +43,10 @@ class MainPage(BasePage):
         self.click(self.locators.CHECKBOX)
         self.click(self.locators.ADD_SEGMENT_SUBMIT)
         self.click(self.locators.CREATE_SEGMENT_SUBMIT)
-        self.find((By.XPATH, self.locators.CREATED_SEGMENT.format(name)))  # аналог time.sleep()
+        self.find((By.XPATH, self.locators.CREATED_SEGMENT.format(name)))
 
     def delete_segment(self, name):
         self.click(self.locators.GO_TO_SEGMENTS)
         self.click((By.XPATH, self.locators.CREATED_SEGMENT_DELETE_BUTTON.format(name)))
         self.click(self.locators.DELETE_CONFIRM_BUTTON)
-        self.click(self.locators.GO_TO_SEGMENTS)  # аналог time.sleep()
+        self.click(self.locators.GO_TO_SEGMENTS)

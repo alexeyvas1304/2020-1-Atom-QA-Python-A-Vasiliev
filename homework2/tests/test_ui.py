@@ -1,12 +1,10 @@
 import pytest
 import time
 
-from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
 
 from ui.locators.locators import *
 from tests.base import BaseCase
-from api.client import Client
-from personal_data import EMAIL, PASSWORD
 
 
 class Test(BaseCase):
@@ -25,31 +23,30 @@ class Test(BaseCase):
         site_name = 'https://example.com'
         campaign_name = 'QAPython' + str(int(time.time()))
         self.main_page.create_campaign(site_name, campaign_name)
-        self.main_page.find((By.XPATH, self.main_page.locators.CREATED_CAMPAIGN.format(campaign_name)))  # проверка
+        self.base_page.find((By.XPATH, self.main_page.locators.CREATED_CAMPAIGN.format(campaign_name)))
 
-        self.main_page.click((By.XPATH, self.main_page.locators.CREATED_CAMPAIGN_CHECKBOX.format(
-            campaign_name)))  # подчистить через апи сложно, чищу через UI
+        self.base_page.click((By.XPATH, self.main_page.locators.CREATED_CAMPAIGN_CHECKBOX.format(
+            campaign_name)))
 
         self.base_page.click(self.main_page.locators.ACTIONS)
         self.base_page.click(self.main_page.locators.DELETE_ACTION)
 
     @pytest.mark.UI
-    def test_create_segment(self, authorization):
+    def test_create_segment(self, authorization, api_client):
         self.main_page = authorization
-        name = 'QAPython' + str(int(time.time()))  # для уникальности
+        name = 'QAPython' + str(int(time.time()))
         self.main_page.create_segment(name)
-        self.main_page.find(
-            (By.XPATH, self.main_page.locators.CREATED_SEGMENT.format(name))).is_displayed()  # проверка совпадения имен
+        self.base_page.find(
+            (By.XPATH, self.main_page.locators.CREATED_SEGMENT.format(name))).is_displayed()
         created_element_id = self.main_page.find(
             (By.XPATH, self.main_page.locators.CREATED_SEGMENT_ID_FIELD.format(name))).text
-        client = Client(EMAIL, PASSWORD)
-        client.delete_segment(created_element_id)  # подчищаю за собой через API, чтоб избежать переполнения сегментов
+        api_client.delete_segment(created_element_id)
 
     @pytest.mark.UI
     def test_delete_segment(self, authorization):
         self.main_page = authorization
-        name = 'QAPython' + str(int(time.time()))  # для уникальности
+        name = 'QAPython' + str(int(time.time()))
         self.main_page.create_segment(name)
         self.main_page.delete_segment(name)
-        with pytest.raises(TimeoutException):
-            self.main_page.find((By.XPATH, self.main_page.locators.CREATED_SEGMENT.format(name)))
+        self.base_page.wait().until(
+            EC.invisibility_of_element_located((By.XPATH, self.main_page.locators.CREATED_SEGMENT.format(name))))

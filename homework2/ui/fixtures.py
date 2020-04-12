@@ -28,7 +28,7 @@ def driver(config):
                 'version': '80.0'
             }
             driver = webdriver.Remote(command_executor=selenoid,
-                                      desired_capabilities=capabilities)  # или  просто capabilities ??
+                                      desired_capabilities=capabilities)
     else:
         raise UnsupportedBrowserException(f'Браузер {browser} не поддерживается')
     driver.get(url)

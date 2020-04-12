@@ -1,4 +1,5 @@
 from ui.fixtures import *
+from api.fixtures import *
 
 
 class UnsupportedBrowserException(Exception):

@@ -34,7 +34,7 @@ class BasePage:
         raise
 
     def send(self, locator, message, timeout=None):
-        elem = self.wait(timeout).until((EC.element_to_be_clickable(locator)))  # какое событие ?
+        elem = self.wait(timeout).until((EC.element_to_be_clickable(locator)))
         elem.send_keys(message)
 
     def scroll_to_element(self, element):
