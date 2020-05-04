@@ -1,0 +1,6 @@
+pytest
+flask
+requests
+paramiko
+sqlalchemy
+pymysql
