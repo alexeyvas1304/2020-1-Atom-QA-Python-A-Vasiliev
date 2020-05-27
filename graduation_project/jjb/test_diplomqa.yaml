@@ -1,0 +1,37 @@
+- job:
+    name: test-diplomqa
+    description: 'First freestyle diplomqa job'
+    project-type: freestyle
+
+    scm:
+      - git:
+          url: git@github.com:alexeyvas1304/2020-1-Atom-QA-Python-A-Vasiliev.git
+          credentials-id: 0e5cee27-dfd7-46a5-b31e-5f79b1ae5190
+          basedir: src
+          branches:
+            - origin/master
+
+    wrappers:
+      - timestamps
+      - workspace-cleanup
+
+    triggers:
+      - pollscm:
+          cron: "* * * * *"
+
+    builders:
+      - shell: |
+          mkdir $WORKSPACE/allure-results
+          cd src
+          python3 -m venv env
+          . env/bin/activate
+          python -m pip install -r requirements.txt
+          cd code
+          pytest -slv -n 4 --selenoid=http://127.0.0.1:4444/wd/hub --alluredir=$WORKSPACE/allure-results
+          deactivate
+
+    publishers:
+      - allure:
+          results-path:
+            - path: allure-results
+          report-build-policy: ALWAYS

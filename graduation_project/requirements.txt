@@ -1,0 +1,10 @@
+selenium
+flask
+requests
+pytest
+pytest-xdist
+allure-pytest
+webdriver-manager
+sqlalchemy
+pymysql
+lxml

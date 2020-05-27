@@ -1,0 +1,63 @@
+version: '2.1'
+
+networks:
+  common:
+    external: true
+
+services:
+  percona_database:
+    networks:
+      - common
+    image: "percona:latest"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    volumes:
+      - ./init.sql:/init.sql
+    command: --init-file /init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-uroot", "-ppass", "ping", "-h", "127.0.0.1"]
+      timeout: 60s
+      retries: 30
+
+
+
+  selenoid:
+    networks:
+      - common
+    image: aerokube/selenoid:latest-release
+    volumes:
+      - /home/alexey/diplomqa/browsers.json:/etc/selenoid/browsers.json
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: ["-conf", "/etc/selenoid/browsers.json","-container-network", "common"]
+    ports:
+      - "4444:4444"
+
+
+
+  mock_vk:
+    networks:
+      - common
+    build: .
+    ports:
+      - "5000:5000"
+
+
+
+  application:
+    networks:
+      - common
+    image: "myapp:latest"
+    command: /app/myapp --config=/config.py
+    volumes:
+      - /home/alexey/diplomqa/config.py:/config.py
+    ports:
+      - "7000:7000"
+    depends_on:
+      percona_database:
+          condition: service_healthy
+      mock_vk:
+        condition: service_started
+      selenoid:
+        condition: service_started
